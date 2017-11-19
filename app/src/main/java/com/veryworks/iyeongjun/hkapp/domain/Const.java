@@ -9,7 +9,7 @@ public class Const {
         public static final String KEY = "i9opnT0CNWj0dfjeUmoProOy3c%2BqZNdfztvalVl624EISpMpkXLDvVzwuuA8n8BnYnMqOjKlZIoBQLm%2FpX%2Fyqg%3D%3D";
         //                    serviceKey= iMw%2F5Z0wNdwfRXJ4HVyIGeMk316OS1Wtsw8v7ItPa3L%2BcmRVKGv%2BBB0k1rit2uwBOuoRnoYOL7%2Bh6EIyblceCQ%3D%3D&numOfRows=10&MobileOS=AND&MobileApp=ShakeHere&mapX=37.515359&mapY=126.907623&radius=5000&_type=json
         public static final String TMAP_KEY = "3b85beaa-6a81-309a-a51d-4d1fff6b8c68";
-        public static final String GOOGLE_MAP_KEY ="AIzaSyCbDWk0gzMfv_qm7hsRIk6spP7kMehAh5o";//"AIzaSyBFb9H1N2EmElNDAcVTXUKxJSGKtbpFU90";//"AIzaSyCXHmSY-KVXCkaPvyL9PVQUbi2RBBg4JY4";
+        public static final String GOOGLE_MAP_KEY ="AIzaSyB7ecNKpeH3dHuq4m8Yo--NwXgOLrKLWAE";//"AIzaSyBFb9H1N2EmElNDAcVTXUKxJSGKtbpFU90";//"AIzaSyCXHmSY-KVXCkaPvyL9PVQUbi2RBBg4JY4";
     }
     public static class Status{
         public static final String SCREEN_ON = "Screen on";
