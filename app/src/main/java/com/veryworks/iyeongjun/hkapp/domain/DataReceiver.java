@@ -21,13 +21,14 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-import static com.veryworks.iyeongjun.hkapp.domain.StaticFields.hkPojoData;
+import static com.veryworks.iyeongjun.hkapp.domain.StaticFields.*;
 
 public class DataReceiver {
     static Retrofit retrofit;
     Context context;
     Gson gson;
     public DataReceiver(Context context) {
+        gson = new Gson();
         this.context = context;
     }
 
@@ -43,9 +44,17 @@ public class DataReceiver {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
-                    Log.d("data",response.body().string());
-                    String val1 = "[{}]";
-                    hkPojoData = gson.fromJson(response.body().string(),HKpojo.class);
+                    String val1 = "{ \"items\":" +response.body().string()+ "}";
+                    Log.d("data",val1);
+                    hkDatas = gson.fromJson(val1,HKData.class);
+                    Items[] items = hkDatas.getItems();
+                    for (int i = 0 ; i < items.length ; i ++){
+                        Log.d("data",
+                                i +"/" +
+                                items[i].getTitle()+"/"+
+                                items[i].getImage()+" /"+
+                                items[i].getSection());
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -60,8 +69,8 @@ public class DataReceiver {
             }
         });
     }
-//    private void ifSeccess(Response<HKData> response){
-//        HKData[] items = response.body();
+//    private void ifSeccess(Response<Items> response){
+//        Items[] items = response.body();
 //        if(datas != null) datas.clear();
 //        for(int i = 0 ; i < items.length ; i ++){
 //            datas.add(items[i]);

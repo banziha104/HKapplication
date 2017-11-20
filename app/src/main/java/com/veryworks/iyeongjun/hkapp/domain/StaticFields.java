@@ -10,6 +10,6 @@ public class StaticFields {
     public static int currentPageNo = 1;
     public static boolean isFirstTime = true;
     public static boolean isInitToogle = true;
-    public static HKpojo hkPojoData;
+    public static HKData hkDatas = new HKData();
     public static ComponentName serviceName;
 }
