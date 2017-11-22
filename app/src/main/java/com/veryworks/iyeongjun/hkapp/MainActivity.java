@@ -1,65 +1,91 @@
 package com.veryworks.iyeongjun.hkapp;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.Gravity;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 
+import com.facebook.rebound.Spring;
+import com.facebook.rebound.SpringSystem;
+import com.tumblr.backboard.performer.Performer;
 import com.veryworks.iyeongjun.hkapp.domain.DataReceiver;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnTouch;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawer;
-    Button button;
     boolean drawerToggle = false;
+    @BindView(R.id.btnMenu) Button btnMenu;
+
+
+    /**/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         setView();
         DataReceiver dataReceiver = new DataReceiver(this);
         dataReceiver.getData();
-        button = (Button)findViewById(R.id.button3);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(drawerToggle == false){
-                    drawer.openDrawer(Gravity.RIGHT);
-                }else{
-                    drawer.closeDrawer(Gravity.RIGHT);
-                }
-            }
-        });
+
     }
-    private void setView(){
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
 
+    private void setView() {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, //상태바 제거
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.setDrawerListener(toggle);
-//        toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-//        getSupportActionBar().hide();
     }
+
+    /**
+     * @param view
+     */
+    public void setBackboard(View view) {
+        Spring bounce = SpringSystem.create().createSpring();
+        Performer xMotion = new Performer(view, View.TRANSLATION_X);
+    }
+
+
+    /**
+     * 메뉴버튼 터치리스너
+     *
+     * @param event
+     * @return
+     */
+
+    @OnTouch(R.id.btnMenu)
+    public boolean onMenuButtonTouch(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+            if (drawerToggle == false) {
+                drawer.openDrawer(Gravity.RIGHT);
+            } else {
+                drawer.closeDrawer(Gravity.RIGHT);
+            }
+        }
+        return false;
+    }
+
     @Override
     public void onBackPressed() {
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
         } else {
             super.onBackPressed();
         }
@@ -67,22 +93,15 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -108,7 +127,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        drawer.closeDrawer(GravityCompat.END);
         return true;
     }
 }

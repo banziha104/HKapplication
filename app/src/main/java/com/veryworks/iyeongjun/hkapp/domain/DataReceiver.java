@@ -32,6 +32,7 @@ public class DataReceiver {
         this.context = context;
     }
 
+    /* DJango 서버에 저장된 한강 데이터를 가져옮 */
     public void getData(){
         retrofit = new Retrofit.Builder()
                 .baseUrl("http://ec2-52-78-202-182.ap-northeast-2.compute.amazonaws.com:80")
@@ -62,8 +63,7 @@ public class DataReceiver {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                Log.d("data",t.getMessage());
+                System.out.println(t.getMessage());
                 t.printStackTrace();
                 Toast.makeText(context, "데이터 읽기 실패", Toast.LENGTH_SHORT).show();
             }
