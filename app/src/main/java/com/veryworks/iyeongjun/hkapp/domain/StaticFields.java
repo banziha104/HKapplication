@@ -8,6 +8,7 @@ import android.content.ComponentName;
 
 public class StaticFields {
     public static int currentPageNo = 1;
+    public static boolean isGetUserLocation = false;
     public static boolean isFirstTime = true;
     public static boolean isInitToogle = true;
     public static HKData hkDatas = new HKData();

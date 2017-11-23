@@ -7,8 +7,7 @@ package com.veryworks.iyeongjun.hkapp.domain;
 public class Const {
     public static class Auth{
         public static final String KEY = "i9opnT0CNWj0dfjeUmoProOy3c%2BqZNdfztvalVl624EISpMpkXLDvVzwuuA8n8BnYnMqOjKlZIoBQLm%2FpX%2Fyqg%3D%3D";
-        //                    serviceKey= iMw%2F5Z0wNdwfRXJ4HVyIGeMk316OS1Wtsw8v7ItPa3L%2BcmRVKGv%2BBB0k1rit2uwBOuoRnoYOL7%2Bh6EIyblceCQ%3D%3D&numOfRows=10&MobileOS=AND&MobileApp=ShakeHere&mapX=37.515359&mapY=126.907623&radius=5000&_type=json
-        public static final String TMAP_KEY = "3b85beaa-6a81-309a-a51d-4d1fff6b8c68";
+
         public static final String GOOGLE_MAP_KEY ="AIzaSyB7ecNKpeH3dHuq4m8Yo--NwXgOLrKLWAE";//"AIzaSyBFb9H1N2EmElNDAcVTXUKxJSGKtbpFU90";//"AIzaSyCXHmSY-KVXCkaPvyL9PVQUbi2RBBg4JY4";
     }
     public static class Status{
@@ -16,53 +15,37 @@ public class Const {
         public static final String SCREEN_OFF = "Screen off";
         public static final String BOOT_COMPLETE = "Boot complete";
     }
-    public static class Lang{
-        public static final String KOREAN = "KorService";
-        public static final String JAPAN = "JpnService";
-        public static final String ENGLISH = "EngService";
-        public static final String CHINA_GAN = "ChsService";
-        public static final String CHINA_BUN = "ChtService";
-        public static final String GERMAN = "GerService";
-        public static final String FRANCE = "FreService";
-        public static final String SPAIN = "SpnService";
-        public static final String RUSSIA = "RusService";
-    }
-    public static class Action{
-        public static final String PAUSE_SENSOR = "";
-        public static final String RESUME_SENSOR = "";
-    }
+
     public static class GPS{
         public static final int GPS_MILE_SECOND = 100;
         public static final int GPS_MIN_LENGTH = 1;
         public static final int GPS_DEFAULT_RESULT = 1;
 
     }
-    public static class DefaultSetting{
-        public static final int DEFAULT_NUM_OF_ROWS = 100;
-        public static final String DEFAULT_MOBILE_OS = "AND";
-        public static final String APP_NAME = "ShakeHere";
-        public static final int DEFAULT_RADIUS = 5000;
-        public static final String DEFAULT_TYPE = "json";
-    }
     public static class ContentType{
-        public static final int TOUR = 12;
-        public static final int COULTURE = 14;
-        public static final int CANIVAL = 15;
-        public static final int REPORTS = 28;
-        public static final int INN = 32;
-        public static final int SHOPPING = 38;
-        public static final int FOOD = 39;
-        public static final int COURSE = 25;
-        public static final int ALL = 10000;
-        /*타국가*/
-        public static final int OTOUR = 76;
-        public static final int OCOULTURE = 78;
-        public static final int OCANIVAL = 85;
-        public static final int OREPORTS = 75;
-        public static final int OINN = 80;
-        public static final int OSHOPPING = 79;
-        public static final int OFOOD = 82;
-        public static final int OTANS = 77;
+        public static final int PARK = 5;
+        public static final int REPO = 7;
+        public static final int REST = 8;
+        public static final int FOOD = 2;
+        public static final int TOUR = 6;
+        public static final int SHOP = 10;
+        public static final int INN = 9;
+        public static final int HIST = 11;
+
+    }
+    public static class SECTION{
+
+        public static final Section GANGNAM = new Section(1,"강남구",37.498881,127.051167);
+        public static final Section GANGDONG = new Section(2,"강동구",37.554738,127.146599);
+        public static final Section GANGSEO = new Section(3,"강서구",37.566876,126.835083);
+        public static final Section GUANJIN = new Section(4,"광진구",37.547491,127.087243);
+        public static final Section DONGJAK = new Section(5,"동작구",37.508410,126.950557);
+        public static final Section MAPO = new Section(6,"마포구",37.554515,126.913792);
+        public static final Section SEOCHO = new Section(7, "서초구",37.495348,127.008017);
+        public static final Section SENGDONG = new Section(8,"성동구",37.552509,127.042697);
+        public static final Section SONGPA = new Section(9,"송파구",37.513315,127.107941);
+        public static final Section YONGSAN = new Section(10,"용산구",37.531060,126.983885);
+        public static final Section YUNGDUNG = new Section(11,"영등포구",37.524097,126.912296);
     }
     public static class AR{
         public final static int REQUEST_CAMERA_PERMISSIONS_CODE = 11;

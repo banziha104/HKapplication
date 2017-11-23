@@ -28,6 +28,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 import static com.veryworks.iyeongjun.hkapp.domain.StaticFields.isFirstTime;
+import static com.veryworks.iyeongjun.hkapp.domain.StaticFields.isGetUserLocation;
 import static com.veryworks.iyeongjun.hkapp.domain.StaticFields.isInitToogle;
 
 
@@ -62,12 +63,13 @@ public class UserLocation {
                 != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(context, "GPS 권한을 허락해주세요!"+isGPSEnabled +"/" +isGPSEnabled, Toast.LENGTH_SHORT).show();
             Log.d("LOCATION","not granted");
             return;
         }
 
         if (!isNetworkEnabled && !isGPSEnabled)    {
-            Toast.makeText(context, "사용할 수 없습니다"+isGPSEnabled +"/" +isGPSEnabled, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "GPS가 꺼져있거나, 네트워크 연결이 안되있습니다."+isGPSEnabled +"/" +isGPSEnabled, Toast.LENGTH_SHORT).show();
             locationServiceEnabled = false;
         }
         if(isNetworkEnabled){
@@ -95,17 +97,7 @@ public class UserLocation {
             Log.d("LOCATION Confirm", location.getLatitude()+" / "+location.getLongitude()+" / " +location.getAccuracy() );
             String tempLocation = location.getLatitude()+","+location.getLongitude();
             reverseGeocoder(tempLocation);
-            Log.d("LOCATION",isFirstTime+""+isInitToogle);
-            if (isFirstTime || isInitToogle) {
-                Log.d("LOCATION","go data receive ");
-//                DataReceiver dataReceiver = new DataReceiver(context);
-//                dataReceiver.getTourDataDefault(Const.Lang.KOREAN,
-//                        currentUserLocation.getLatitude(),
-//                        currentUserLocation.getLongitude()
-//                        );
-                isFirstTime = false;
-            }
-
+            isGetUserLocation = true;
         }
 
         @Override

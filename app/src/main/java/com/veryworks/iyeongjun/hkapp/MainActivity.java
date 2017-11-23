@@ -2,7 +2,10 @@ package com.veryworks.iyeongjun.hkapp;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,24 +13,27 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
-import com.facebook.rebound.Spring;
-import com.facebook.rebound.SpringSystem;
-import com.tumblr.backboard.performer.Performer;
 import com.veryworks.iyeongjun.hkapp.domain.DataReceiver;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnTouch;
+
+import static com.veryworks.iyeongjun.hkapp.Util.UserLocation.currentUserLocation;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawer;
     boolean drawerToggle = false;
     @BindView(R.id.btnMenu) Button btnMenu;
+    @BindView(R.id.tabLayout) TabLayout tab;
+    @BindView(R.id.viewpager) ViewPager pager;
 
 
     /**/
@@ -40,7 +46,6 @@ public class MainActivity extends AppCompatActivity
         setView();
         DataReceiver dataReceiver = new DataReceiver(this);
         dataReceiver.getData();
-
     }
 
     private void setView() {
@@ -49,14 +54,6 @@ public class MainActivity extends AppCompatActivity
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    /**
-     * @param view
-     */
-    public void setBackboard(View view) {
-        Spring bounce = SpringSystem.create().createSpring();
-        Performer xMotion = new Performer(view, View.TRANSLATION_X);
     }
 
 
@@ -79,6 +76,53 @@ public class MainActivity extends AppCompatActivity
             }
         }
         return false;
+    }
+
+    public void setPager() {
+
+        Log.d("ARPOINT", currentUserLocation.getLatitude() + "/" + currentUserLocation.getLongitude());
+//
+//        tab.addTab(tab.newTab().setIcon(tabIcons[0]));
+//        tab.addTab(tab.newTab().setIcon(tabIcons[1]));
+//        tab.addTab(tab.newTab().setIcon(tabIcons[2]));
+//        tab.addTab(tab.newTab().setIcon(tabIcons[3]));
+        tab.addTab(tab.newTab().setText(""));
+        tab.addTab(tab.newTab().setText(""));
+        tab.addTab(tab.newTab().setText(""));
+        tab.addTab(tab.newTab().setText("Map"));
+        List<Fragment> datas = new ArrayList<>();
+
+        ListFragment listFragment = new ListFragment();
+        SectionFragment sectionFragment = new SectionFragment();
+        TagFragment tagFragment = new TagFragment();
+        MapFragment mapFragment = new MapFragment();
+
+        datas.add(listFragment);
+        datas.add(sectionFragment);
+        datas.add(tagFragment);
+        datas.add(mapFragment);
+
+        MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager(), datas);
+        // 5. 아답터를 페이저 위젯에 연결
+        pager.setAdapter(adapter);
+        // 6. 페이저가 변경되었을 때 탭을 변경해주는 리스너
+        pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tab));
+        // 7. 탭이 변경되었때 페이저를 변경해주는 리스너
+        tab.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(pager));
+        tab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tabs) {
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tabs) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tabs) {
+
+            }
+        });
     }
 
     @Override
