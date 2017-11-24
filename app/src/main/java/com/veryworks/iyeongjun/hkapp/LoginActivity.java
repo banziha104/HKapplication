@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity implements PermissionContro
     private FirebaseAuth.AuthStateListener mAuthListener;
     CallbackManager callbackManager;
     AccessToken accessToken;
-
+    String a;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,13 +54,14 @@ public class LoginActivity extends AppCompatActivity implements PermissionContro
         setView();
         setFirebaseAuth();
         PermissionControl.checkVersion(this);
+        mAuth = FirebaseAuth.getInstance();
+
     }
 
     private void setView() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, //상태바 제거
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setVideo();
-        mAuth = FirebaseAuth.getInstance();
     }
 
     private void setFirebaseAuth(){
