@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.veryworks.iyeongjun.hkapp.Interface.TypeAndSectionSwapInterface;
 import com.veryworks.iyeongjun.hkapp.Reactive.RxEventBus;
@@ -80,19 +81,23 @@ public class MainActivity extends AppCompatActivity
         switch (num){
             case LIST :
                 fab.setImageResource(R.drawable.fab_refresh);
+                curPos = LIST;
                 break;
 
             case SECTION_AND_TYPE :
                 if(isTypeList) setTypeList();
                 else setSectionList();
+                curPos = SECTION_AND_TYPE;
                 break;
 
             case TOUNAMENT :
                 fab.setImageResource(R.drawable.fab_write);
+                curPos = TOUNAMENT;
                 break;
 
             case MAP :
                 fab.setImageResource(R.drawable.fab_map);
+                curPos =MAP;
                 break;
         }
     }
@@ -125,12 +130,11 @@ public class MainActivity extends AppCompatActivity
         }
         return false;
     }
+    @Override
+    public void setTypeList() {fab.setImageResource(R.drawable.swap_type);}
 
     @Override
-    public void setTypeList() {btnMenu.setImageResource(R.drawable.swap_type);}
-
-    @Override
-    public void setSectionList() {btnMenu.setImageResource(R.drawable.swap_location);}
+    public void setSectionList() {fab.setImageResource(R.drawable.swap_location);}
 
     /*뷰페이저와 프래그먼트 세팅*/
     public void setPager() {
