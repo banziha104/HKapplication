@@ -10,10 +10,9 @@ public class Const {
 
         public static final String GOOGLE_MAP_KEY ="AIzaSyB7ecNKpeH3dHuq4m8Yo--NwXgOLrKLWAE";//"AIzaSyBFb9H1N2EmElNDAcVTXUKxJSGKtbpFU90";//"AIzaSyCXHmSY-KVXCkaPvyL9PVQUbi2RBBg4JY4";
     }
-    public static class Status{
-        public static final String SCREEN_ON = "Screen on";
-        public static final String SCREEN_OFF = "Screen off";
-        public static final String BOOT_COMPLETE = "Boot complete";
+    public static class Count{
+        public static final int TYPE_LENGTH = 7;
+        public static final int SECTION_LENGTH = 11;
     }
 
     public static class GPS{
@@ -31,7 +30,12 @@ public class Const {
         public static final int SHOP = 10;
         public static final int INN = 9;
         public static final int HIST = 11;
-
+    }
+    public static class FRAGMENT{
+        public static final int LIST = 0;
+        public static final int SECTION_AND_TYPE = 1;
+        public static final int TOUNAMENT =2;
+        public static final int MAP = 3;
     }
     public static class SECTION{
 

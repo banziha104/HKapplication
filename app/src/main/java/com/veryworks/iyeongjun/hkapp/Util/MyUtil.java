@@ -1,5 +1,8 @@
 package com.veryworks.iyeongjun.hkapp.Util;
 
+import android.view.MotionEvent;
+import android.widget.ImageButton;
+
 import static com.veryworks.iyeongjun.hkapp.domain.Const.*;
 
 /**
@@ -7,6 +10,7 @@ import static com.veryworks.iyeongjun.hkapp.domain.Const.*;
  */
 
 public class MyUtil {
+
     public static String convertSectionIntToString(int num){
         String result = "";
         if(num == SECTION.GANGNAM.getPk())        result = SECTION.GANGNAM.getName();

@@ -7,7 +7,7 @@ import android.content.ComponentName;
  */
 
 public class StaticFields {
-    public static int currentPageNo = 1;
+    public static boolean isTypeList = true;
     public static boolean isGetUserLocation = false;
     public static boolean isFirstTime = true;
     public static boolean isInitToogle = true;

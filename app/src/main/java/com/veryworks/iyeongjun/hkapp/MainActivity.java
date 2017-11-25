@@ -13,8 +13,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.WindowManager;
-import android.widget.Button;
+import android.widget.ImageButton;
 
+import com.veryworks.iyeongjun.hkapp.Interface.TypeAndSectionSwapInterface;
+import com.veryworks.iyeongjun.hkapp.Reactive.RxEventBus;
+import com.veryworks.iyeongjun.hkapp.Reactive.RxPagerEventBus;
+import com.veryworks.iyeongjun.hkapp.adapter.PagerAdapter;
+import com.veryworks.iyeongjun.hkapp.domain.Const;
 import com.veryworks.iyeongjun.hkapp.domain.DataReceiver;
 
 import java.util.ArrayList;
@@ -22,18 +27,27 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.OnTouch;
+import io.reactivex.subjects.PublishSubject;
+
+import static com.veryworks.iyeongjun.hkapp.domain.Const.FRAGMENT.LIST;
+import static com.veryworks.iyeongjun.hkapp.domain.Const.FRAGMENT.MAP;
+import static com.veryworks.iyeongjun.hkapp.domain.Const.FRAGMENT.SECTION_AND_TYPE;
+import static com.veryworks.iyeongjun.hkapp.domain.Const.FRAGMENT.TOUNAMENT;
+import static com.veryworks.iyeongjun.hkapp.domain.StaticFields.isTypeList;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-
+        implements NavigationView.OnNavigationItemSelectedListener,TypeAndSectionSwapInterface {
+    int curPos;
     DrawerLayout drawer;
     boolean drawerToggle = false;
 
-    @BindView(R.id.btnMenu) Button btnMenu;
+    @BindView(R.id.btnMenu) ImageButton btnMenu;
     @BindView(R.id.tabLayout) TabLayout tab;
     @BindView(R.id.viewpager) ViewPager pager;
-    String a;
+    @BindView(R.id.fab) ImageButton fab;
+
     /**/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +57,7 @@ public class MainActivity extends AppCompatActivity
         setView();
         DataReceiver dataReceiver = new DataReceiver(this);
         dataReceiver.getData();
+
     }
 
     private void setView() {
@@ -52,8 +67,42 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         setPager();
+        setObservableSubscribe();
     }
 
+    private void setObservableSubscribe(){
+        RxPagerEventBus.getInstance().getObservable().subscribe(
+                num -> fabContllor(num)
+        );
+    }
+
+    private void fabContllor(int num){
+        switch (num){
+            case LIST :
+                fab.setImageResource(R.drawable.fab_refresh);
+                break;
+
+            case SECTION_AND_TYPE :
+                if(isTypeList) setTypeList();
+                else setSectionList();
+                break;
+
+            case TOUNAMENT :
+                fab.setImageResource(R.drawable.fab_write);
+                break;
+
+            case MAP :
+                fab.setImageResource(R.drawable.fab_map);
+                break;
+        }
+    }
+    /**
+     * 버튼 클릭사 각 프래그먼트로 이벤트 발행
+     */
+    @OnClick(R.id.fab)
+    public void onFabClicked(){
+        RxEventBus.getInstance().sendEvent(curPos);
+    }
 
     /**
      * 메뉴버튼 터치리스너
@@ -65,8 +114,9 @@ public class MainActivity extends AppCompatActivity
     @OnTouch(R.id.btnMenu)
     public boolean onMenuButtonTouch(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
+            btnMenu.setImageResource(R.drawable.menu_c_image);
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
+            btnMenu.setImageResource(R.drawable.menu_image);
             if (drawerToggle == false) {
                 drawer.openDrawer(Gravity.RIGHT);
             } else {
@@ -75,6 +125,12 @@ public class MainActivity extends AppCompatActivity
         }
         return false;
     }
+
+    @Override
+    public void setTypeList() {btnMenu.setImageResource(R.drawable.swap_type);}
+
+    @Override
+    public void setSectionList() {btnMenu.setImageResource(R.drawable.swap_location);}
 
     /*뷰페이저와 프래그먼트 세팅*/
     public void setPager() {
@@ -93,6 +149,7 @@ public class MainActivity extends AppCompatActivity
 
         ListFragment listFragment = new ListFragment();
         SectionTypeFragment sectionFragment = new SectionTypeFragment();
+        sectionFragment.setTypeAndSectionSwapInterface(this);
         TournamentFragment tagFragment = new TournamentFragment();
         MapFragment mapFragment = new MapFragment();
 
@@ -101,20 +158,37 @@ public class MainActivity extends AppCompatActivity
         datas.add(tagFragment);
         datas.add(mapFragment);
 
-        MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager(), datas);
+        PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), datas);
         // 아답터를 페이저 위젯에 연결
         pager.setAdapter(adapter);
         // 페이저가 변경되었을 때 탭을 변경해주는 리스너
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                RxPagerEventBus.getInstance().sendEvent(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tab));
         // 탭이 변경되었때 페이저를 변경해주는 리스너
         tab.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(pager));
         tab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tabs) {
+
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tabs) {
+
             }
 
             @Override

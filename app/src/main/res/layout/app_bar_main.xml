@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.veryworks.iyeongjun.hkapp.MainActivity">
 
-    <include layout="@layout/content_main" />
+    <include layout="@layout/content_main"
+        android:id="@+id/include" />
 
 </android.support.design.widget.CoordinatorLayout>
